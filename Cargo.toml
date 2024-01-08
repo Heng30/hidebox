@@ -1,0 +1,18 @@
+[workspace]
+resolver = "2"
+
+members = [
+    "hidebox"
+]
+
+[profile.dev]
+opt-level = 0
+debug = true
+
+[profile.dev.package.sqlx-macros]
+opt-level = 3
+
+[profile.release]
+opt-level = 3
+debug = false
+
