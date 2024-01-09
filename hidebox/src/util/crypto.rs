@@ -25,7 +25,7 @@ pub fn encrypt(password: &str, plain_text: &[u8]) -> Result<String> {
         ));
     }
 
-    let mut buffer = [0u8; 4096 * 4];
+    let mut buffer = [0u8; 4096 * 2];
     buffer[..pos].copy_from_slice(plain_text);
     let text = cipher.encrypt(&mut buffer, pos)?;
 

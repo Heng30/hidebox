@@ -40,6 +40,9 @@ pub fn tr(text: &str) -> String {
     items.insert("发送交易成功", "Send transaction success");
     items.insert("发送交易失败", "Send transaction failed");
     items.insert("非法交易", "Invalid transaction");
+    items.insert("写入成功", "Write file success");
+    items.insert("取消成功", "Cancel success");
+    items.insert("解码成功", "Decode success");
     items.insert("刷新...", "Flush...");
     items.insert("在线", "Online");
     items.insert("正忙", "Busy");
