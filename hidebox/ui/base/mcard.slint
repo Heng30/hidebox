@@ -1,0 +1,54 @@
+import { Theme } from "../theme.slint";
+import { Store } from "../store.slint";
+import { Label } from "./label.slint";
+import { CenterLayout } from "./center-layout.slint";
+
+export component MCard inherits Rectangle {
+    callback clicked <=> tarea.clicked;
+
+    in-out property<bool> is-no-data: true;
+    in-out property<string> text: Store.translator.no-data;
+    in-out property<image> img: @image-url("../../ui/images/file-add.svg");
+
+    preferred-width: 200px;
+    border-width: 1px;
+    border-color: Theme.dark-border-color;
+    border-radius: Theme.border-radius;
+
+    VerticalLayout {
+        padding: Theme.padding * 2;
+        spacing: Theme.spacing * 2;
+
+        if root.is-no-data: Image {
+            source: @image-url("../../ui/images/no-data.svg");
+        }
+
+        if !root.is-no-data: Image {
+            source: root.img;
+            colorize: Theme.darker-fill-color;
+        }
+
+        txt := Label {
+            wrap: word-wrap;
+            horizontal-alignment: center;
+            text: root.text;
+        }
+    }
+
+    if tarea.has-hover: Rectangle {
+        width: tip-txt.preferred-width + Theme.padding * 2;
+        height: tip-txt.preferred-height + Theme.padding * 2;
+
+        background: Theme.basic-white-color;
+        border-color: Theme.basic-black-color;
+        border-width: 1px;
+
+        tip-txt := Label {
+            text: Store.translator.tip-click-to-load;
+        }
+    }
+
+    tarea := TouchArea {
+        mouse-cursor: self.has-hover ? pointer : default;
+    }
+}

@@ -1,85 +1,98 @@
-// use crate::message::{async_message_success, async_message_warn};
-// use crate::message_warn;
-// use crate::password_dialog::is_password_verify;
-// use crate::slint_generatedAppWindow::{Account as SAccount, ActivityItem, AppWindow, Logic, Store};
-// use crate::util::translator::tr;
-// use crate::wallet::account::address::Info as AddressInfo;
-// use crate::{db, util};
-// use serde_json::{json, Value};
-// use slint::{ComponentHandle, Model, VecModel, Weak};
-// use tokio::task::spawn;
+use crate::message::{async_message_success, async_message_warn};
+use crate::message_warn;
+use crate::slint_generatedAppWindow::{AppWindow, EncodeSpec, Logic, Store};
+use crate::util;
+use crate::util::translator::tr;
+use native_dialog::FileDialog;
+use slint::{ComponentHandle, Weak};
+use tokio::task::spawn;
 
-// const MNEMONIC_LEN: usize = 24;
+pub fn init(ui: &AppWindow) {
+    let ui_handle = ui.as_weak();
+    ui.global::<Logic>().on_cancel_encode(move || {
+        let ui = ui_handle.unwrap();
+        ui.global::<Store>().set_encode_spec(EncodeSpec::default());
+    });
 
-// pub fn init(ui: &AppWindow) {
-//     load_items(ui.as_weak());
+    let ui_handle = ui.as_weak();
+    ui.global::<Logic>().on_load_encode_src_file(move || {
+        let ui = ui_handle.unwrap();
 
-//     let ui_handle = ui.as_weak();
-//     ui.global::<Logic>()
-//         .on_new_account(move |password, mnemonic| {
-//             let password = password.to_string();
-//             let mnemonic: Vec<&str> = mnemonic.as_str().split_whitespace().collect();
-//             if mnemonic.len() != MNEMONIC_LEN {
-//                 let ui = ui_handle.clone().unwrap();
-//                 ui.global::<Store>().set_is_show_new_account_dialog(true);
-//                 message_warn!(ui, tr("组记词错误"));
-//                 return;
-//             }
+        // write data to end of these files can not effect file format
+        match FileDialog::new()
+            .set_location("~")
+            .add_filter(
+                "Image",
+                &[
+                    "bmp", "png", "jpg", "gif", "exe", "pdf", "jar", "rar", "mp4",
+                ],
+            )
+            .show_open_single_file()
+        {
+            Ok(Some(file)) => {
+                let mut spec = ui.global::<Store>().get_encode_spec();
+                spec.src_file = file.to_str().unwrap().into();
+                ui.global::<Store>().set_encode_spec(spec);
+            }
+            Err(e) => {
+                message_warn!(&ui, format!("{}{:?}", tr("打开文件失败"), e));
+            }
+            _ => (),
+        };
+    });
 
-//             let ui = ui_handle.clone();
-//             let mnemonic = mnemonic.join(" ");
-//             spawn(async move {
-//                 let _ = db::account::delete_all().await;
+    let ui_handle = ui.as_weak();
+    ui.global::<Logic>().on_load_encode_append_file(move || {
+        let ui = ui_handle.unwrap();
 
-//                 let addr = match AddressInfo::new("account-0", &password, &mnemonic) {
-//                     Ok(addr) => addr,
-//                     Err(e) => {
-//                         let _ = slint::invoke_from_event_loop(move || {
-//                             let ui = ui.clone().unwrap();
-//                             ui.global::<Store>().set_is_show_new_account_dialog(true);
+        match FileDialog::new().set_location("~").show_open_single_file() {
+            Ok(Some(file)) => {
+                let mut spec = ui.global::<Store>().get_encode_spec();
+                spec.append_file = file.to_str().unwrap().into();
+                ui.global::<Store>().set_encode_spec(spec);
+            }
+            Err(e) => {
+                message_warn!(&ui, format!("{}{:?}", tr("打开文件失败"), e));
+            }
+            _ => (),
+        };
+    });
 
-//                             message_warn!(
-//                                 ui,
-//                                 format!("{}. {}: {e:?}", tr("恢复账户失败"), tr("原因"))
-//                             );
-//                         });
-//                         return;
-//                     }
-//                 };
+    let ui_handle = ui.as_weak();
+    ui.global::<Logic>().on_load_encode_dst_file(move || {
+        let ui = ui_handle.unwrap();
+        let output_file = format!("output-{}", ui.global::<Store>().get_encode_spec().src_file);
 
-//                 let addr_copy = addr.clone();
-//                 let uuid = addr.uuid.clone();
+        match FileDialog::new()
+            .set_location("~")
+            .set_filename(&output_file)
+            .show_save_single_file()
+        {
+            Ok(Some(file)) => {
+                let mut spec = ui.global::<Store>().get_encode_spec();
+                spec.dst_file = file.to_str().unwrap().into();
+                ui.global::<Store>().set_encode_spec(spec);
+            }
+            Err(e) => {
+                message_warn!(&ui, format!("{}{:?}", tr("打开文件失败"), e));
+            }
+            _ => (),
+        };
+    });
 
-//                 let data = json!({
-//                     "uuid": addr.uuid,
-//                     "name": addr.name,
-//                     "mnemonic": addr.mnemonic,
-//                     "network": addr.network,
-//                     "main-address": addr.address.0,
-//                     "test-address": addr.address.1,
-//                     "password": util::crypto::hash(&password),
-//                 });
-
-//                 let json_data = serde_json::to_string(&data).unwrap();
-//                 match db::account::insert(&uuid, &json_data).await {
-//                     Err(e) => async_message_warn(
-//                         ui.clone(),
-//                         format!("{}. {}: {e:?}", tr("创建账户失败"), tr("原因")),
-//                     ),
-//                     _ => async_message_success(ui.clone(), tr("创建账户成功")),
-//                 }
-
-//                 let _ = slint::invoke_from_event_loop(move || {
-//                     let ui = ui.clone().unwrap();
-//                     let mut account = ui.global::<Store>().get_account();
-//                     account.uuid = addr_copy.uuid.into();
-//                     account.name = addr_copy.name.into();
-//                     account.address = addr_copy.address.0.into();
-//                     account.network = addr_copy.network.into();
-//                     ui.global::<Store>().set_account(account);
-//                 });
-//             });
-//         });
+    let ui_handle = ui.as_weak();
+    ui.global::<Logic>().on_encode(move |password| {
+        let password = password.to_string();
+        let ui = ui_handle.clone();
+        spawn(async move {
+            let _ = slint::invoke_from_event_loop(move || {
+                let ui = ui.clone().unwrap();
+                // let mut account = ui.global::<Store>().get_account();
+                // ui.global::<Store>().set_account(account);
+            });
+        });
+    });
+}
 
 //     ui.global::<Logic>()
 //         .on_new_mnemonic(move || AddressInfo::mnemonic().into());

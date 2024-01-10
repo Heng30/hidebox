@@ -1,14 +1,95 @@
+import { ProgressIndicator } from "std-widgets.slint";
 import { Theme } from "../../theme.slint";
 import { Store } from "../../store.slint";
+import { Util } from "../../util.slint";
 import { Logic } from "../../logic.slint";
 import { IconBtn } from "../../base/icon-btn.slint";
-import { Divider } from "../../base/divider.slint";
+import { Btn } from "../../base/btn.slint";
+import { MCard } from "../../base/mcard.slint";
+import { CenterLayout } from "../../base/center-layout.slint";
+import { Label } from "../../base/label.slint";
 
 export component Decode inherits Rectangle {
-    background: blue;
-
     VerticalLayout {
-        spacing: Theme.spacing;
+        spacing: Theme.spacing * 4;
+
+        HorizontalLayout {
+            spacing: Theme.padding * 4;
+
+            MCard {
+                img: @image-url("../../../ui/images/file-zip.svg");
+                is-no-data: Store.decode-spec.src-file == "";
+                text: Util.file-basename(self.is-no-data ? Store.translator.tip-src-file : Store.decode-spec.src-file);
+
+                clicked => {
+                    Logic.load-decode-src-file();
+                }
+            }
+
+            CenterLayout { Label { text: "=>"; } }
+
+            MCard {
+                img: @image-url("../../../ui/images/file-light.svg");
+                is-no-data: Store.decode-spec.dst-file == "";
+                text: Util.file-basename(self.is-no-data ? Store.translator.tip-dst-file : Store.decode-spec.dst-file);
+
+                clicked => {
+                    Logic.load-decode-dst-file();
+                }
+            }
+        }
+
+        HorizontalLayout {
+            alignment: space-between;
+
+            HorizontalLayout {
+                width: 45%;
+                spacing: Theme.spacing * 2;
+
+                Rectangle {
+                    width: 75%;
+                    ProgressIndicator {
+                        width: 100%; height: 30px;
+                        progress: Store.decode-spec.progress / 100.0;
+                    }
+                }
+
+                Label {
+                    text: Store.decode-spec.progress + "%";
+                }
+            }
+
+            HorizontalLayout {
+                width: 45%;
+
+                HorizontalLayout {
+                    alignment: space-between;
+
+                    Btn {
+                        width: 45%;
+                        text-color: Theme.primary-text-color;
+                        bg-color: Theme.darker-border-color;
+                        icon: @image-url("../../../ui/images/cancel.svg");
+                        text: Store.translator.cancel;
+
+                        clicked => {
+                            Logic.cancel-decode();
+                        }
+                    }
+
+                    Btn {
+                        width: 45%;
+                        icon: @image-url("../../../ui/images/ok.svg");
+                        text-color: Theme.primary-text-color;
+                        text: Store.translator.ok;
+
+                        clicked => {
+                            Store.password-dialog-config.handle-type = "decode";
+                            Store.password-dialog-config.show = true;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
-

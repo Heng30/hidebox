@@ -1,3 +1,6 @@
+use crate::slint_generatedAppWindow::AppWindow;
+use slint::Weak;
+
 pub mod decode;
 pub mod encode;
 
@@ -27,9 +30,10 @@ struct ChunkSpec {
     pub data: Vec<u8>,
 }
 
-#[derive(Clone, Default, Debug)]
+#[derive(Clone, Default)]
 struct ProgressCbArg {
     pub progress: u32,
+    pub ui: Option<Weak<AppWindow>>,
 }
 
 type ProgressCb = fn(ProgressCbArg);

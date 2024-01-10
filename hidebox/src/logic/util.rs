@@ -3,6 +3,7 @@ use crate::slint_generatedAppWindow::{AppWindow, Logic, Util};
 use crate::util::translator::tr;
 use crate::util::{self, number, time};
 use slint::ComponentHandle;
+use std::path::Path;
 
 pub fn init(ui: &AppWindow) {
     ui.global::<Util>().on_string_fixed2(move |n| {
@@ -27,4 +28,12 @@ pub fn init(ui: &AppWindow) {
                 .join(sep.as_str())
                 .into()
         });
+
+    ui.global::<Util>().on_file_basename(move |file| {
+        let path = Path::new(file.as_str());
+        match path.file_name() {
+            Some(name) => name.to_str().unwrap_or("").into(),
+            None => file,
+        }
+    });
 }

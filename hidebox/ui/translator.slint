@@ -91,6 +91,10 @@ export struct Translation {
     tip-browser: string,
     tip-encode: string,
     tip-decode: string,
+    tip-click-to-load: string,
+    tip-src-file: string,
+    tip-append-file: string,
+    tip-dst-file: string,
 
     tip-help: string,
     tip-about: string,
@@ -200,6 +204,10 @@ export global Translator {
 
             tip-encode: is-cn ? "编码" : "Encode",
             tip-decode: is-cn ? "解码" : "Decode",
+            tip-click-to-load: is-cn ? "点击加载文件" : "Click to load file",
+            tip-src-file: is-cn ? "源文件" : "Source file",
+            tip-append-file: is-cn ? "附加文件" : "Attachment",
+            tip-dst-file: is-cn ? "输出文件" : "Output file",
 
             tip-help: is-cn ? "帮助" : "Help",
             tip-about: is-cn ? "关于" : "About",

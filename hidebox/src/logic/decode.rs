@@ -1,23 +1,17 @@
-// use crate::message::{async_message_success, async_message_warn};
-// use crate::slint_generatedAppWindow::{ActivityItem, AppWindow, Logic, Store};
-// use crate::util::translator::tr;
-// use crate::wallet::transaction::blockstream;
-// use crate::{db, util};
-// use serde_json::{json, Value};
-// use slint::{ComponentHandle, Model, VecModel, Weak};
-// use std::sync::atomic::{AtomicBool, Ordering};
-// use tokio::task::spawn;
-// use tokio::time::{sleep, Duration};
-// use uuid::Uuid;
+use crate::message::{async_message_success, async_message_warn};
+use crate::slint_generatedAppWindow::{AppWindow, Logic, Store};
+use crate::util;
+use crate::util::translator::tr;
+use slint::ComponentHandle;
+use tokio::task::spawn;
 
-// static IS_FLUSH_NOW: AtomicBool = AtomicBool::new(false);
 
-// pub fn init(ui: &AppWindow) {
-//     check_confirm_timer(ui.as_weak());
-
-//     let ui_handle = ui.as_weak();
-//     ui.global::<Logic>().on_activity_delete_item(move |uuid| {
-//         let ui = ui_handle.unwrap();
+pub fn init(ui: &AppWindow) {
+    // let ui_handle = ui.as_weak();
+    // ui.global::<Logic>().on_activity_delete_item(move |uuid| {
+    //     let ui = ui_handle.unwrap();
+    // });
+}
 
 //         for (index, item) in ui.global::<Store>().get_activity_datas().iter().enumerate() {
 //             if item.uuid == uuid {

@@ -14,7 +14,7 @@ mod logic;
 mod util;
 mod version;
 
-use logic::{about, clipboard, message, ok_cancel_dialog, password_dialog, setting, window};
+use logic::{about, clipboard, message, ok_cancel_dialog, password_dialog, setting, window, encode, decode};
 
 use anyhow::Result;
 use chrono::Local;
@@ -41,6 +41,9 @@ async fn main() -> Result<()> {
     setting::init(&ui);
     ok_cancel_dialog::init(&ui);
     password_dialog::init(&ui);
+
+    encode::init(&ui);
+    decode::init(&ui);
 
     ui.run().unwrap();
 

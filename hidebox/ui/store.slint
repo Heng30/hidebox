@@ -5,11 +5,13 @@ export struct EncodeSpec {
     src-file: string,
     append-file: string,
     dst-file: string,
+    progress: float,
 }
 
 export struct DecodeSpec {
     src-file: string,
     dst-file: string,
+    progress: float,
 }
 
 export struct Password {
@@ -55,6 +57,12 @@ export global Store  {
     in-out property<string> panel-type: "encode";
 
     in-out property<EncodeSpec> encode-spec;
+    // {
+    //     src-file: "/home/blue/如何为歌曲配和弦.png",
+    //     append-file: "/home/blue/如何为歌曲配和弦.png",
+    //     dst-file: "/home/blue/如何为歌曲配和弦.png",
+    // };
+
     in-out property<DecodeSpec> decode-spec;
 
     in-out property<MessageItem> message;
@@ -88,13 +96,13 @@ export global Store  {
             + "  1. 配置保存在~/.config/hidebox目录下。\n"
             + "  2. 数据保存在~/.local/share/hidebox目录下。\n"
             + "\n注意事项:\n"
-            + "  1. 使用 blockstream API 进行交易广播，获取UTXO等链上信息。\n",
+            + "  1. 需要安装本地文件框：kdialog/zenity。\n",
 
         text-en:
               "Configuration and data:\n"
             + "  1. Configuration is stored in the ~/.config/hidebox directory.\n"
             + "  2. Data is stored in the ~/.local/share/hidebox directory.\n"
             + "\nNote:\n"
-            + "  1. Use blockstream API to broadcast transation, fetch UTXO and other on chain information.\n",
+            + "  1. Need to install file dialog: kdialog/zenity.\n",
     };
 }

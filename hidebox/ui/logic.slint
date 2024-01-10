@@ -25,6 +25,14 @@ export global Logic {
     callback cancel-encode();
     callback cancel-decode();
 
+    callback load-encode-src-file();
+    callback load-encode-append-file();
+    callback load-encode-dst-file();
+
+    callback load-decode-src-file();
+    callback load-decode-dst-file();
+
     callback handle-password-dialog(string, string, string); // argument: type, uuid, password
+
 }
 

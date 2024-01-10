@@ -102,7 +102,10 @@ pub async fn get_hide_spec_data(file_spec: &FileSpec, password: &str) -> Result<
     let hide_spec_data = util::crypto::decrypt(password, &hide_spec_data)?;
     let hide_spec_data = String::from_utf8_lossy(&hide_spec_data);
 
-    Ok(serde_json::from_str(&hide_spec_data)?)
+    match serde_json::from_str(&hide_spec_data) {
+        Ok(v) => Ok(v),
+        Err(e) => Err(anyhow!("wrong password: {password}")),
+    }
 }
 
 pub async fn decode(

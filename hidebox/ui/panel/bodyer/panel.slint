@@ -8,16 +8,20 @@ import { Decode } from "./decode.slint";
 
 export component Bodyer inherits Rectangle {
     VerticalLayout {
-        padding: Theme.spacing * 10;
+        padding-left: Theme.padding * 2;
+        padding-right: self.padding-left;
+
+        padding-top: Theme.padding * 8;
+        padding-bottom: Theme.padding;
 
         if Store.panel-type == "encode": Encode {
             width: 100%;
-            height: parent.height - parent.padding * 2;
+            height: parent.height - parent.padding-top - parent.padding-bottom;
         }
 
         if Store.panel-type == "decode": Decode {
             width: 100%;
-            height: parent.height - parent.padding * 2;
+            height: parent.height - parent.padding-top - parent.padding-bottom;
         }
     }
 }
