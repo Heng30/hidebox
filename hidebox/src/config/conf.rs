@@ -20,14 +20,6 @@ pub fn ui() -> data::UI {
     CONFIG.lock().unwrap().borrow().ui.clone()
 }
 
-pub fn account() -> data::Account {
-    CONFIG.lock().unwrap().borrow().account.clone()
-}
-
-pub fn socks5() -> data::Socks5 {
-    CONFIG.lock().unwrap().borrow().socks5.clone()
-}
-
 #[allow(dead_code)]
 pub fn conf_path() -> String {
     let conf = CONFIG.lock().unwrap();
@@ -64,7 +56,7 @@ pub fn save(conf: data::Config) -> Result<()> {
 
 impl Config {
     pub fn init(&mut self) -> Result<()> {
-        let app_dirs = AppDirs::new(Some("bitbox"), true).unwrap();
+        let app_dirs = AppDirs::new(Some("hidebox"), true).unwrap();
         Self::init_app_dir(&app_dirs)?;
         self.init_config(&app_dirs)?;
         self.init_path()?;
@@ -87,14 +79,14 @@ impl Config {
     fn init_config(&mut self, app_dirs: &AppDirs) -> Result<()> {
         self.config_path = app_dirs
             .config_dir
-            .join("bitbox.conf")
+            .join("hidebox.conf")
             .to_str()
             .unwrap()
             .to_string();
 
         self.db_path = app_dirs
             .data_dir
-            .join("bitbox.db")
+            .join("hidebox.db")
             .to_str()
             .unwrap()
             .to_string();
@@ -114,8 +106,6 @@ impl Config {
             Ok(text) => match serde_json::from_str::<Config>(&text) {
                 Ok(c) => {
                     self.ui = c.ui;
-                    self.account = c.account;
-                    self.socks5 = c.socks5;
                     Ok(())
                 }
                 Err(e) => Err(e.into()),

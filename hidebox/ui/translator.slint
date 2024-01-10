@@ -69,60 +69,8 @@ export struct Translation {
     no-data: string,
     no-message: string,
 
-    btc-price: string,
-    btc-per-byte-fee: string,
-
-    tool-send: string,
-    tool-receive: string,
-    tool-activity: string,
-    tool-address-book: string,
-
-    send-receive-address: string,
-    send-amount: string,
-    send-feerate: string,
-    send-max-feerate: string,
-
-    address-book-header-name: string,
-    address-book-header-address: string,
-    address-book-add-item-dialog-title: string,
-    address-book-qrcode-dialog-title: string,
-    address-book-dialog-title: string,
-
-    activity-header-time: string,
-    activity-header-txid: string,
-    activity-header-operate: string,
-    activity-header-amount: string,
-    activity-header-fee: string,
-    activity-header-status: string,
-
     password-dialog-title: string,
     password-dialog-password: string,
-
-    tx-detail-dialog-title: string,
-    tx-detail-dialog-network: string,
-    tx-detail-dialog-send-address: string,
-    tx-detail-dialog-receive-address: string,
-    tx-detail-dialog-send-amount: string,
-    tx-detail-dialog-fee-amount: string,
-    tx-detail-dialog-tx-hex: string,
-    tx-detail-dialog-tx-raw: string,
-
-    change-password-dialog-title: string,
-    change-password-dialog-old-password: string,
-    change-password-dialog-new-password: string,
-    change-password-dialog-confirm-password: string,
-
-    new-account-dialog-title: string,
-    new-account-dialog-password: string,
-    new-account-dialog-password-confirm: string,
-    new-account-dialog-mnemonic: string,
-    new-account-dialog-password-mismatch: string,
-    new-account-dialog-failed: string,
-    new-account-dialog-type-new: string,
-    new-account-dialog-type-recover: string,
-    new-account-dialog-type-recover-placeholder: string,
-
-    show-mnemonic-dialog-title: string,
 
     tip-copy: string,
     tip-add: string,
@@ -140,8 +88,9 @@ export struct Translation {
     tip-logout: string,
     tip-address-book: string,
     tip-max: string,
-    tip-new-mnemonic: string,
     tip-browser: string,
+    tip-encode: string,
+    tip-decode: string,
 
     tip-help: string,
     tip-about: string,
@@ -228,61 +177,8 @@ export global Translator {
             no-data: is-cn ? "没有数据" : "No data",
             no-message: is-cn ? "没有信息" : "No message",
 
-            btc-price: is-cn ? "价格" : "Price",
-            btc-per-byte-fee: is-cn ? "费率(sat/vB)" : "Fee(sat/vB)",
-
-
-            tool-send: is-cn ? "发送" : "Send",
-            tool-receive: is-cn ? "接收" : "Receive",
-            tool-activity: is-cn ? "活动" : "Activity",
-            tool-address-book: is-cn ? "地址簿" : "Address",
-
-            send-receive-address: is-cn ? "接收地址" : "Address",
-            send-amount: is-cn ? "发送数量(BTC)" : "Amount(BTC)",
-            send-feerate: is-cn ? "费率(sat/vB)" : "Fee(sat/vB)",
-            send-max-feerate: is-cn ? "最大费率" : "max fee rate",
-
-            address-book-header-name: is-cn ? "名称" : "Name",
-            address-book-header-address: is-cn ? "地址" : "Address",
-            address-book-add-item-dialog-title: is-cn ? "添加地址" : "Add address",
-            address-book-qrcode-dialog-title: is-cn ? "二维码" : "QrCode",
-            address-book-dialog-title: is-cn ? "地址簿" : "Address book",
-
-            activity-header-time: is-cn ? "时间" : "Time",
-            activity-header-txid: is-cn ? "交易ID" : "TxId",
-            activity-header-operate: is-cn ? "操作" : "Operate",
-            activity-header-amount: is-cn ? "数量(BTC)" : "Amount",
-            activity-header-fee: is-cn ? "费用(BTC)" : "Fee",
-            activity-header-status: is-cn ? "状态" : "Status",
-
             password-dialog-title: is-cn ? "请输入密码" : "Please input password",
             password-dialog-password: is-cn ? "密  码" : "Password",
-
-            tx-detail-dialog-title: is-cn ? "交易详情" : "Tx Detail",
-            tx-detail-dialog-network: is-cn ? "网       络" : "Network",
-            tx-detail-dialog-send-address: is-cn ? "发送地址" : "Send address",
-            tx-detail-dialog-receive-address: is-cn ? "接受地址" : "Receive address",
-            tx-detail-dialog-send-amount: is-cn ? "发送数量" : "Send amount",
-            tx-detail-dialog-fee-amount: is-cn ? "交易费用" : "Fee amount",
-            tx-detail-dialog-tx-hex: is-cn ? "交易细节(Hex)" : "Tx Detail(Hex)",
-            tx-detail-dialog-tx-raw: is-cn ? "交易细节(Raw)" : "Tx Detail(Raw)",
-
-            change-password-dialog-title: is-cn ? "更改密码" : "Change password",
-            change-password-dialog-old-password: is-cn ? "旧  密  码" : "Old password",
-            change-password-dialog-new-password: is-cn ? "新  密  码" : "New password",
-            change-password-dialog-confirm-password: is-cn ? "重新输入" : "Confirm password",
-
-            new-account-dialog-title: is-cn ? "创建用户" : "New account",
-            new-account-dialog-password: is-cn ? "输入密码" : "Input password",
-            new-account-dialog-password-confirm: is-cn ? "确认密码" : "Confirm password",
-            new-account-dialog-mnemonic: is-cn ? "组记词" : "Mnemonic",
-            new-account-dialog-password-mismatch: is-cn ? "新旧密码不同" : "Old password and new password mismatch",
-            new-account-dialog-failed: is-cn ? "创建账户失败" : "New account failed",
-            new-account-dialog-type-new: is-cn ? "新建账户" : "New Account",
-            new-account-dialog-type-recover: is-cn ? "恢复账户" : "Recover account",
-            new-account-dialog-type-recover-placeholder: is-cn ? "请输入24位组记词, 每个组记词使用空格分割" : "Please input 24 mnemonics and space between each mnemonic",
-
-            show-mnemonic-dialog-title: is-cn ? "组记词" : "Mnemonic",
 
             tip-copy: is-cn ? "复制" : "Copy",
             tip-add: is-cn ? "添加" : "Add",
@@ -300,8 +196,10 @@ export global Translator {
             tip-logout: is-cn ? "登出" : "Logout",
             tip-address-book: is-cn ? "地址簿" : "Address book",
             tip-max: is-cn ? "最大数量" : "Max Value",
-            tip-new-mnemonic: is-cn ? "重新生成组记词" : "Renew mnemonic",
             tip-browser: is-cn ? "浏览器" : "Browser",
+
+            tip-encode: is-cn ? "编码" : "Encode",
+            tip-decode: is-cn ? "解码" : "Decode",
 
             tip-help: is-cn ? "帮助" : "Help",
             tip-about: is-cn ? "关于" : "About",

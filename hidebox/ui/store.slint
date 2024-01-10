@@ -1,56 +1,21 @@
 import { Translator, Translation} from "./translator.slint";
 import { MDItem } from "./base/data.slint";
 
-export struct Account {
-    uuid: string,
-    name: string,
-    address: string,
-    network: string,
-    balance-btc: string,
-    balance-usd: string,
+export struct EncodeSpec {
+    src-file: string,
+    append-file: string,
+    dst-file: string,
 }
 
-export struct ActivityItem {
-    uuid: string,
-    time: string,
-    txid: string,
-    operate: string,
-    amount: string,
-    fee: string,
-    status: string,
-}
-
-export struct TxDetail {
-    show: bool,
-    network: string,
-    send-address: string,
-    receive-address: string,
-    send-amount-btc: string,
-    send-amount-usd: string,
-    fee-amount-btc: string,
-    fee-amount-usd: string,
-    detail-hex: string,
-    detail-raw: string,
-}
-
-export struct AddressBookItem {
-    uuid: string,
-    name: string,
-    address: string,
+export struct DecodeSpec {
+    src-file: string,
+    dst-file: string,
 }
 
 export struct Password {
     show: bool,
     handle-type: string,
     handle-uuid: string,
-}
-
-export struct BtcInfo {
-    price: string,
-    byte-fee-slow: string,
-    byte-fee-normal: string,
-    byte-fee-fast: string,
-    update-time: string,
 }
 
 export struct MessageItem {
@@ -74,24 +39,9 @@ export struct SettingUI {
     language: string,
 }
 
-export struct SettingAccount {
-    max-feerate: string,
-    max-fee-amount: string,
-    max-send-amount: string,
-    skip-utxo-amount: string,
-}
-
-export struct SettingProxy {
-    enabled: bool,
-    url: string,
-    port: string,
-}
-
 export struct SettingDialogConfig {
     show: bool,
     ui: SettingUI,
-    account: SettingAccount,
-    proxy: SettingProxy,
 }
 
 export struct AboutDialog {
@@ -102,71 +52,13 @@ export struct AboutDialog {
 }
 
 export global Store  {
-    in-out property<Account> account: {
-        balance-btc: "0",
-        balance-usd: "0",
-    };
+    in-out property<string> panel-type: "encode";
 
-    in-out property<bool> is-show-change-account-password-dialog: false;
-    in-out property<bool> is-show-show-mnemonic-dialog: false;
-    in-out property<bool> is-show-new-account-dialog: false;
-    in-out property<string> account-mnemonic;
-
-    in-out property<TxDetail> tx-detail-dialog: {
-        show: false,
-    };
-
-    in-out property<bool> is-show-address-book-add-item-dialog: false;
-    in-out property<bool> is-show-address-book-qrcode-dialog: false;
-    in-out property<bool> is-show-address-book-dialog: false;
-    in-out property<string> address-book-qrcode-address;
-    in-out property<[AddressBookItem]> address-book-datas: [
-        {
-            uuid: "uuid-1",
-            name: "name-1",
-            address: "address-1",
-        },
-        {
-            uuid: "uuid-2",
-            name: "name-2wjifjwifjwif",
-            address: "address-2wjfowefjwifjwifjwijfwijfwiefjwi",
-        },
-    ];
-
-    in-out property<Password> password-dialog-config: {
-        show: false,
-    };
-
-    in-out property<[ActivityItem]> activity-datas: [
-        {
-            uuid: "uuid-1",
-            time: "12-10 23:45:12",
-            txid: "31040072e777e124e120f6f157fdec1482062fb10055ba684e6dfc7b112f8241",
-            operate: "send",
-            amount: "0.12",
-            fee: "0.001",
-            status: "unconfirm",
-        },
-        {
-            uuid: "uuid-2",
-            time: "12-10 22:43:12",
-            txid: "31040072e777e124e120f6f157fdec1482062fb10055ba684e6dfc7b112f8241",
-            operate: "send",
-            amount: "0.2",
-            fee: "0.001",
-            status: "confirm",
-        }
-    ];
-
-    in-out property<BtcInfo> btc-info: {
-        price: "0",
-        byte-fee-slow: "0",
-        byte-fee-normal: "0",
-        byte-fee-fast: "0",
-        update-time: "00:00:00",
-    };
+    in-out property<EncodeSpec> encode-spec;
+    in-out property<DecodeSpec> decode-spec;
 
     in-out property<MessageItem> message;
+    in-out property<Password> password-dialog-config: { show: false };
     in-out property<OkCancelDialogSetting> ok-cancel-dialog-setting;
 
     in-out property<SettingDialogConfig> setting-dialog-config: {
@@ -174,26 +66,15 @@ export global Store  {
         ui: {
             font-size: "18",
             font-family: "SourceHanSerifCN",
-            win-width: "650",
-            win-height: "550",
+            win-width: "600",
+            win-height: "400",
             language: "cn",
-        },
-        account: {
-            max-feerate: "0",
-            max-fee-amount: "0",
-            max-send-amount: "0",
-            skip-utxo-amount: "0",
-        },
-        proxy: {
-            enabled: false,
-            url: "127.0.0.1",
-            port: "1080",
         }
     };
 
     in-out property<AboutDialog> about-dialog: {
         show: false,
-        title: "Bitbox v0.0.1",
+        title: "HideBox v0.0.1",
         text: "Based on Slint-UI. Copyright 2022-2030 The Heng30 Company Ltd. All rights reserved. The program is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.",
         sponsor: "0xf1199999751b1a3A74590adBf95401D19AB30014",
     };
@@ -204,15 +85,15 @@ export global Store  {
         show: false,
         text-cn:
               "配置和数据:\n"
-            + "  1. 配置保存在~/.config/bitbox目录下。\n"
-            + "  2. 数据保存在~/.local/share/bitbox目录下。\n"
+            + "  1. 配置保存在~/.config/hidebox目录下。\n"
+            + "  2. 数据保存在~/.local/share/hidebox目录下。\n"
             + "\n注意事项:\n"
             + "  1. 使用 blockstream API 进行交易广播，获取UTXO等链上信息。\n",
 
         text-en:
               "Configuration and data:\n"
-            + "  1. Configuration is stored in the ~/.config/bitbox directory.\n"
-            + "  2. Data is stored in the ~/.local/share/bitbox directory.\n"
+            + "  1. Configuration is stored in the ~/.config/hidebox directory.\n"
+            + "  2. Data is stored in the ~/.local/share/hidebox directory.\n"
             + "\nNote:\n"
             + "  1. Use blockstream API to broadcast transation, fetch UTXO and other on chain information.\n",
     };

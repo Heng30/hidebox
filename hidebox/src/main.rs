@@ -1,6 +1,6 @@
 #![windows_subsystem = "windows"]
 
-// slint::include_modules!();
+slint::include_modules!();
 
 #[macro_use]
 extern crate serde_derive;
@@ -9,12 +9,12 @@ extern crate serde_derive;
 extern crate lazy_static;
 
 mod config;
-// mod logic;
 mod file;
+mod logic;
 mod util;
 mod version;
 
-// use logic::{about, address_book, btcinfo, clipboard, message, ok_cancel_dialog, password_dialog, send_tx, account, activity, setting, window};
+use logic::{about, clipboard, message, ok_cancel_dialog, password_dialog, setting, window};
 
 use anyhow::Result;
 use chrono::Local;
@@ -29,20 +29,20 @@ async fn main() -> Result<()> {
 
     config::init();
 
-//     let ui = AppWindow::new()?;
+    let ui = AppWindow::new()?;
 
-//     logic::util::init(&ui);
-//     logic::base::init(&ui);
+    logic::util::init(&ui);
+    logic::base::init(&ui);
 
-//     clipboard::init(&ui);
-//     message::init(&ui);
-//     window::init(&ui);
-//     about::init(&ui);
-//     setting::init(&ui);
-//     ok_cancel_dialog::init(&ui);
-    // password_dialog::init(&ui);
+    clipboard::init(&ui);
+    message::init(&ui);
+    window::init(&ui);
+    about::init(&ui);
+    setting::init(&ui);
+    ok_cancel_dialog::init(&ui);
+    password_dialog::init(&ui);
 
-    // ui.run().unwrap();
+    ui.run().unwrap();
 
     debug!("exit...");
     Ok(())
