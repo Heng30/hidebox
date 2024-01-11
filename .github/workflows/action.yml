@@ -15,8 +15,6 @@ jobs:
       - run: ls ${{ github.workspace }}
       - run: sudo apt update
       - run: sudo apt install libxcb-composite0-dev
-        # libfreetype6-dev libexpat1-dev
-        # libasound2-dev
 
       - run: echo "start install Rust..."
       - name: Install Rust
