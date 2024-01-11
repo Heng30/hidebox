@@ -7,6 +7,7 @@ use anyhow::Result;
 use native_dialog::FileDialog;
 use slint::{ComponentHandle, Weak};
 use std::path::Path;
+use std::time::Duration;
 use tokio::fs::File;
 use tokio::task::spawn;
 
@@ -15,8 +16,11 @@ pub fn init(ui: &AppWindow) {
     ui.global::<Logic>().on_cancel_decode(move || {
         file::decode::cancel();
 
-        let ui = ui_handle.unwrap();
-        ui.global::<Store>().set_decode_spec(DecodeSpec::default());
+        let ui = ui_handle.clone();
+        slint::Timer::single_shot(Duration::from_millis(200), move || {
+            let ui = ui.unwrap();
+            ui.global::<Store>().set_decode_spec(DecodeSpec::default());
+        });
     });
 
     let ui_handle = ui.as_weak();

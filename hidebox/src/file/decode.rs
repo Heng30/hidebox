@@ -100,12 +100,15 @@ async fn get_hide_spec_data(file_spec: &FileSpec, password: &str) -> Result<Hide
 
     file.read_exact(&mut hide_spec_data).await?;
     let hide_spec_data = String::from_utf8_lossy(&hide_spec_data);
-    let hide_spec_data = util::crypto::decrypt(password, &hide_spec_data)?;
+    let hide_spec_data = match util::crypto::decrypt(password, &hide_spec_data) {
+        Ok(v) => v,
+        Err(_) => return Err(anyhow!(format!("wrong password: {password}"))),
+    };
     let hide_spec_data = String::from_utf8_lossy(&hide_spec_data);
 
     match serde_json::from_str(&hide_spec_data) {
         Ok(v) => Ok(v),
-        Err(_) => Err(anyhow!("wrong password: {password}")),
+        Err(_) => Err(anyhow!(format!("wrong password: {password}"))),
     }
 }
 
