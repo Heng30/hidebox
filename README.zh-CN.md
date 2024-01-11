@@ -1,6 +1,6 @@
 ![screenshot](./screenshot/hidebox-cn.png)
 
-[English Documentation](./README.zh-CN.md)
+[English Documentation](./README.md)
 
 #### 简介
 文件隐写工具, 在源文件后添加加密数据，而且不破坏源文件的格式。目前支持文件格式：bmp, png, jpg, gif, exe, pdf, jar, rar, mp4.
