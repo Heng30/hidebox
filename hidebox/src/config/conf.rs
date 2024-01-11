@@ -20,7 +20,7 @@ pub fn ui() -> data::UI {
     CONFIG.lock().unwrap().borrow().ui.clone()
 }
 
-#[allow(dead_code)]
+#[allow(unused)]
 pub fn conf_path() -> String {
     let conf = CONFIG.lock().unwrap();
     let conf = conf.borrow();
@@ -28,7 +28,7 @@ pub fn conf_path() -> String {
     conf.config_path.clone()
 }
 
-#[allow(dead_code)]
+#[allow(unused)]
 pub fn db_path() -> String {
     let conf = CONFIG.lock().unwrap();
     let conf = conf.borrow();

@@ -13,6 +13,7 @@ pub fn cancel() {
     CANCEL_DECODE.store(true, Ordering::SeqCst);
 }
 
+#[allow(dead_code)]
 fn get_chunk_from_buffer(buffer: &[u8]) -> Result<Vec<u8>> {
     if buffer.len() <= MIN_CHUNK_LEN {
         return Err(anyhow!("buffer is too small, less than {MIN_CHUNK_LEN}"));
@@ -70,7 +71,7 @@ pub async fn has_append_file(file_spec: &FileSpec) -> Result<bool> {
     Ok(magic_buf == MAGIC_NUM.as_bytes())
 }
 
-pub async fn get_hide_spec_data(file_spec: &FileSpec, password: &str) -> Result<HideSpec> {
+async fn get_hide_spec_data(file_spec: &FileSpec, password: &str) -> Result<HideSpec> {
     let pos_of_end = CHUNK_LEN_SIZE + MAGIC_NUM.len();
 
     if file_spec.size <= pos_of_end as u64 {
@@ -104,7 +105,7 @@ pub async fn get_hide_spec_data(file_spec: &FileSpec, password: &str) -> Result<
 
     match serde_json::from_str(&hide_spec_data) {
         Ok(v) => Ok(v),
-        Err(e) => Err(anyhow!("wrong password: {password}")),
+        Err(_) => Err(anyhow!("wrong password: {password}")),
     }
 }
 
@@ -167,11 +168,11 @@ pub async fn decode(
             let progress = ((current as f64 / hide_spec.append_size as f64) * 100.) as u32;
             progress_callback_arg.progress = progress;
             progress_callback(progress_callback_arg.clone());
-            log::debug!(
-                "current={} total={} progress={progress}",
-                current,
-                hide_spec.append_size
-            );
+            // log::debug!(
+            //     "current={} total={} progress={progress}",
+            //     current,
+            //     hide_spec.append_size
+            // );
         }
 
         if current >= hide_spec.append_size {

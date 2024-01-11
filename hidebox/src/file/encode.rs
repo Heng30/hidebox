@@ -57,7 +57,7 @@ pub async fn encode(
 
     let total = src_file_spec.size + append_file_spec.size;
     log::debug!(
-        "源文件:{} 附加文件:{} 总大小:{}",
+        "src-size:{} append-size:{} total:{}",
         src_file_spec.size,
         append_file_spec.size,
         total
@@ -86,7 +86,7 @@ pub async fn encode(
             let progress = ((current as f64 / total as f64) * 100.) as u32;
             progress_callback_arg.progress = progress;
             progress_callback(progress_callback_arg.clone());
-            log::debug!("current={} total={} progress={progress}", current, total);
+            // log::debug!("current={} total={} progress={progress}", current, total);
         }
 
         // the last chunk of the file is written
@@ -125,7 +125,7 @@ pub async fn encode(
             let progress = ((current as f64 / total as f64) * 100.) as u32;
             progress_callback_arg.progress = progress;
             progress_callback(progress_callback_arg.clone());
-            log::debug!("current={} total={} progress={progress}", current, total);
+            // log::debug!("current={} total={} progress={progress}", current, total);
         }
 
         if len < buf.len() {

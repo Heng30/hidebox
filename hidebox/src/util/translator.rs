@@ -43,6 +43,8 @@ pub fn tr(text: &str) -> String {
     items.insert("写入成功", "Write file success");
     items.insert("取消成功", "Cancel success");
     items.insert("解码成功", "Decode success");
+    items.insert("文件名为空", "File name is empty");
+    items.insert("非法文件", "Invalid file");
     items.insert("刷新...", "Flush...");
     items.insert("在线", "Online");
     items.insert("正忙", "Busy");

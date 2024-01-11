@@ -1,4 +1,4 @@
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Default, Debug, Clone)]
 pub struct Config {
     #[serde(skip)]
     pub config_path: String,
@@ -10,17 +10,6 @@ pub struct Config {
     pub cache_dir: String,
 
     pub ui: UI,
-}
-
-impl Default for Config {
-    fn default() -> Self {
-        Self {
-            config_path: String::default(),
-            db_path: String::default(),
-            cache_dir: String::default(),
-            ui: UI::default(),
-        }
-    }
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]

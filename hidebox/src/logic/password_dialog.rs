@@ -1,7 +1,5 @@
-use crate::slint_generatedAppWindow::{AppWindow, Logic, Store};
-use crate::util;
-use crate::util::translator::tr;
-use slint::{ComponentHandle, Weak};
+use crate::slint_generatedAppWindow::{AppWindow, Logic};
+use slint::ComponentHandle;
 
 pub fn init(ui: &AppWindow) {
     let ui_handle = ui.as_weak();

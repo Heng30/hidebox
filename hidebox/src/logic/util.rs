@@ -1,6 +1,4 @@
-use crate::message_warn;
-use crate::slint_generatedAppWindow::{AppWindow, Logic, Util};
-use crate::util::translator::tr;
+use crate::slint_generatedAppWindow::{AppWindow, Util};
 use crate::util::{self, number, time};
 use slint::ComponentHandle;
 use std::path::Path;
